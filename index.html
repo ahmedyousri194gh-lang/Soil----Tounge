@@ -1,105 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Soil Tongue</title>
-  <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #f6f7f4; color: #2b2b2b; }
-    header { position: fixed; top: 0; width: 100%; background: rgba(40,80,40,0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(6px); transition: 0.3s; }
-    header.scrolled { background: rgba(20,40,20,0.95); padding: 10px 20px; }
-    nav a { margin: 0 12px; color: #fff; text-decoration: none; font-weight: bold; transition: 0.3s; }
-    nav a:hover { color: #d9ffcf; transform: scale(1.1); }
-    section { padding: 120px 40px 60px; animation: fadeUp 1s ease; }
-    h1, h2 { color: #264d26; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .card { background: #ffffff; padding: 20px; border-radius: 14px; margin: 20px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: transform 0.4s; }
-    .card:hover { transform: scale(1.04); }
-    footer { text-align: center; padding: 30px; background: #264d26; color: white; margin-top: 40px; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Soil Tongue — Smart Soil Testing</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bgA: #071913;
+    --bgB: #0b3d2e;
+    --accent: #6ee7b7;
+    --accent2:#3fc09a;
+    --earth:#c67a3b;
+    --card: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.06);
+    --text:#e9fff6;
+    --muted:#bfead8;
+    --radius:18px;
+    --maxw:1200px;
+    --transition:.28s ease;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:var(--text);background:linear-gradient(180deg,var(--bgA),var(--bgB));-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+
+  .wrap{width:min(var(--maxw),95%);margin:0 auto;padding-left:12px;padding-right:12px;}
+
+  /* NAV */
+  .nav{
+    position:sticky;top:12px;z-index:120;
+    display:flex;align-items:center;justify-content:center;padding:10px;
+    backdrop-filter: blur(6px); border-radius:999px;
+    border:1px solid var(--glass-border); background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    margin:12px auto; width:min(var(--maxw),96%);
+    transition: all var(--transition);
+  }
+  .nav.scrolled{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.6) }
+  .nav .brand{ font-weight:900;color:var(--accent); margin-right:16px; font-size:1.05rem }
+  .nav .links{ display:flex; gap:12px; flex-wrap:wrap; }
+  .nav .links a{ padding:8px 12px; border-radius:999px; color:var(--muted); font-weight:600; transition:all .18s }
+  .nav .links a:hover{ transform:translateY(-3px); color:var(--text); background:rgba(255,255,255,0.02) }
+
+  /* HERO */
+  header.hero{ text-align:center;padding:56px 0 24px; }
+  .hero .title{ font-weight:900; font-size:clamp(40px,7.5vw,76px); line-height:0.9;
+    background:linear-gradient(90deg,#baf5c0,#3fe9c0); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    text-shadow:0 12px 40px rgba(5,30,22,0.25); margin:0;
+    transition:transform 1.6s ease; }
+  .hero .subtitle{ color:var(--muted); max-width:920px; margin:14px auto 0; font-size:clamp(15px,2vw,18px) }
+
+  .hero .hero-grid{ display:grid; grid-template-columns: 1fr 420px; gap:22px; align-items:center; margin-top:26px; width:min(var(--maxw),95%); margin-left:auto; margin-right:auto; }
+  @media (max-width:980px){ .hero .hero-grid{ grid-template-columns:1fr; } }
+
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:16px; padding:18px; border:1px solid var(--glass-border); backdrop-filter: blur(6px);
+    box-shadow:0 14px 30px rgba(0,0,0,0.45);
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .card:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.5); }
+
+  .hero-image{ width:100%; height:320px; object-fit:cover; border-radius:12px; display:block; transition:transform 0.8s ease; }
+  .tagline{ font-size:18px; font-weight:700; color:var(--accent2) }
+
+  .cta-row{ margin-top:16px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .btn{ padding:10px 16px; border-radius:999px; border:0; cursor:pointer; font-weight:700; background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#05261a; box-shadow:0 12px 30px rgba(21,125,81,0.12); transition:transform .18s }
+  .btn.alt{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03) }
+  .btn:hover{ transform:translateY(-6px) }
+
+  /* sections */
+  section{ padding:44px 0; }
+  .section-title{ text-align:center; font-size:clamp(20px,3.5vw,36px); color:var(--accent); margin-bottom:12px; font-weight:800 }
+
+  /* features / cards grid */
+  .features-grid, .cards-grid, .examples, .soil-grid{ display:grid; gap:16px; margin-top:18px; }
+  .features-grid{ grid-template-columns:repeat(3,1fr); }
+  .cards-grid{ grid-template-columns:repeat(3,1fr); }
+  .examples{ grid-template-columns:repeat(3,1fr); }
+  .soil-grid{ grid-template-columns:repeat(4,1fr); }
+
+  @media (max-width:1000px){ .features-grid, .cards-grid, .examples{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:920px){ .hero .hero-grid{ grid-template-columns:1fr; } }
+  @media (max-width:640px){ .features-grid, .cards-grid, .examples, .soil-grid{ grid-template-columns:1fr; } }
+
+  .feature, .comp, .example, .soil{ padding:22px; border-radius:12px; text-align:center; transition: transform var(--transition); }
+  .feature:hover, .comp:hover, .example:hover, .soil:hover{ transform:translateY(-8px); }
+
+  .feature .icon{ font-size:34px; margin-bottom:6px }
+  .feature h4, .example h4, .soil h4{ margin:6px 0; font-weight:800 }
+  .feature p, .example p, .soil p, .comp-body p{ color:var(--muted) }
+
+  .comp{ display:flex; gap:12px; align-items:flex-start; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.04); transition:transform .3s, box-shadow .3s; cursor:pointer; }
+  .comp img{ width:120px; height:84px; object-fit:cover; border-radius:10px; flex-shrink:0; transform:scale(1.08); opacity:.95; transition:transform .8s; }
+
+  /* steps */
+  .steps{ display:flex; flex-direction:column; gap:10px; margin-top:12px }
+  .step{ background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.02)); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); }
+
+  /* contact */
+  .contact-grid{ display:grid; grid-template-columns:1fr 320px; gap:18px; }
+  @media (max-width:920px){ .contact-grid{ grid-template-columns:1fr; } }
+  .contact-card{ padding:14px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.04) }
+  input, textarea, select{ width:100%; padding:10px; margin-top:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--text) }
+  label{ font-weight:700; color:var(--muted); font-size:14px }
+
+  footer{ text-align:center; color:var(--muted); margin:40px 0 80px }
+
+  /* scroll animation */
+  [data-anim]{ opacity:0; transform: translateY(18px) scale(.995); transition: all 700ms cubic-bezier(.2,.9,.2,1); will-change:transform,opacity }
+  [data-anim].in{ opacity:1; transform:translateY(0) scale(1) }
+</style>
 </head>
 <body>
-  <header id="navBar">
-    <div class="logo">🌱 <b>Soil Tongue</b></div>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#problem">Problem</a>
-      <a href="#solution">Solution</a>
-      <a href="#material">Material</a>
-      <a href="#soil">Soil Types</a>
-      <a href="#use">How to Use</a>
-      <a href="#examples">Examples</a>
-      <a href="#contact">Contact</a>
+<!-- NAV -->
+<div class="nav" id="nav">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:center;gap:18px">
+    <div class="brand">🌱 Soil Tongue</div>
+    <nav class="links" role="navigation" aria-label="Main nav">
+      <a href="#home">🏠 Home</a>
+      <a href="#problem">⚠️ Problem</a>
+      <a href="#solution">💡 Solution</a>
+      <a href="#materials">🛠 Material</a>
+      <a href="#soiltypes">🌾 Soil types</a>
+      <a href="#use">📋 How to use</a>
+      <a href="#examples">🌱 Examples</a>
+      <a href="#contact">📧 Contact</a>
     </nav>
-  </header>
-
-  <section id="home">
-    <h1>🌱 Soil Tongue</h1>
-    <p>Simple tools, better crops — farming the smart way 🚜✨</p>
-  </section>
-
-  <section id="problem">
-    <h2>⚠️ Problem</h2>
-    <div class="card">
-      Many farmers face challenges because they do not know the soil conditions well... (text continues)
+  </div>
+</div>
+<!-- HERO -->
+<header id="home" class="hero wrap" aria-label="Home">
+  <h1 class="title" data-anim>🌱 Soil Tongue</h1>
+  <p class="subtitle muted" data-anim>Simple tools, better crops — smart farming made easy</p>
+  <div class="hero-grid" data-anim>
+    <div>
+      <p class="muted">Measure soil pH, moisture, salinity, and temperature. Get recommended crops and guidance.</p>
+      <div class="cta-row" style="margin-top:16px;">
+        <button class="btn" onclick="document.querySelector('#problem').scrollIntoView({behavior:'smooth'})">Learn more</button>
+        <button class="btn alt" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Contact</button>
+      </div>
     </div>
-  </section>
-
-  <section id="solution">
-    <h2>💡 Solution</h2>
     <div class="card">
-      The problem of not knowing the soil is very common... (text continues)
+      <img class="hero-image" loading="lazy"
+        src="https://images.unsplash.com/photo-1626128570774-6cc236f74b70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800" 
+        alt="Soil Tongue device in soil">
+      <div class="muted" style="font-size:14px">Prototype in testing</div>
     </div>
-  </section>
-
-  <section id="material">
-    <h2>🧰 Materials</h2>
-    <div class="card">Arduino board</div>
-    <div class="card">pH sensor</div>
-    <div class="card">Soil moisture sensor</div>
-    <div class="card">Temperature sensor</div>
-    <div class="card">TDS sensor</div>
-    <div class="card">LCD screen</div>
-  </section>
-
-  <section id="soil">
-    <h2>🌍 Soil Types</h2>
-    <div class="card">Sandy Soil — drains fast, low nutrients</div>
-    <div class="card">Clay Soil — holds water, rich nutrients</div>
-    <div class="card">Loamy Soil — best for most plants</div>
-    <div class="card">Silty Soil — smooth, nutrient-rich</div>
-  </section>
-
-  <section id="use">
-    <h2>📘 How to Use</h2>
-    <div class="card">1. Place the sensors into the soil...</div>
-    <div class="card">2. Turn on the device...</div>
-  </section>
-
-  <section id="examples">
-    <h2>🥕 Examples</h2>
-    <div class="card">Tomato 🍅 — pH 6-7, Loamy Soil</div>
-    <div class="card">Potato 🥔 — pH 5-6, Sandy Soil</div>
-    <div class="card">Wheat 🌾 — pH 6-7.5, Loamy</div>
-  </section>
-
-  <section id="contact">
-    <h2>📞 Contact</h2>
-    <div class="card">Eyad Nasser — 01003609906</div>
-    <div class="card">Ahmed Yousri — 01020831635</div>
-  </section>
-
-  <footer>
-    © 2025 Soil Tongue — Smart Farming 🌿
-  </footer>
-
-<script>
-  window.addEventListener("scroll", function() {
-    const nav = document.getElementById("navBar");
-    if (window.scrollY > 40) nav.classList.add("scrolled");
-    else nav.classList.remove("scrolled");
-  });
-</script>
-
-</body>
-</html>
+  </div>
+</header>
+<!-- PROBLEM -->
+<section id="problem" class="wrap" aria-label="Problem">
+  <h2 class="section-title" data-anim>⚠️ Problem</h2>
+  <div class="card" data-anim>
+    <p class="muted">Many farmers face difficulties because they do not know the soil conditions properly.</p>
+    <ul class="muted">
+      <li>Incorrect soil pH reduces plant growth</li>
+      <li>Soil temperature not suitable for crops</li>
+      <li>Excess salts or low moisture can harm yield</li>
+    </ul>
+  </div>
+</section>
+<!-- SOLUTION -->
+<section id="solution" class="wrap" aria-label="Solution">
+  <h2 class="section-title" data-anim>💡 Solution</h2>
+  <div class="card" data-anim>
+    <p class="muted">Soil Tongue provides a compact, low-cost device to measure key soil parameters and suggests ideal crops for planting.</p>
+  </div>
+</section>
+<!-- MATERIAL -->
+<section id="materials" class="wrap" aria-label="Material">
+  <h2 class="section-title" data-anim>🛠 Material</h2>
+  <div class="cards-grid" data-anim>
+    <div class="comp"><img src="https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?crop=entropy&cs=tinysrgb&fit=max&w=120" alt="Arduino"><div class="comp-body"><h4>Arduino Uno ⚡</h4></div></div>
+    <div class="comp"><img src="https://images.unsplash.com/photo-1581092332930-d6b37c73f9d0?crop=entropy&cs=tinysrgb&fit=max&w=120" alt="pH sensor"><div class="comp-body"><h4>pH sensor 🧪</h4></div></div>
+    <div class="comp"><img src="https://images.unsplash.com/photo-1601050690935-6c5187cbe15f?crop=entropy&cs=tinysrgb&fit=max&w=120" alt="Moisture sensor"><div class="comp-body"><h4>Soil moisture 💧</h4></div></div>
+    <div class="comp"><img src="https://images.unsplash.com/photo-1551446591-142875a901a1?crop=entropy&cs=tinysrgb&fit=max&w=120" alt="Temperature sensor"><div class="comp-body"><h4>Temperature 🌡️</h4></div></div>
+    <div class="comp"><img src="https://images.unsplash.com/photo-1581091870621-2a545da2a68c?crop=entropy&cs=tinysrgb&fit=max&w=120" alt="Salinity sensor"><div class="comp-body"><h4>Salinity sensor 🧂</h4></div></div>
+    <div class="comp"><img src="https://images.unsplash.com/photo-1554774853-522a78b1ff72?crop=entropy&cs=tinysrgb&fit=max&w=120" alt="LCD"><div class="comp-body"><h4>LCD Display 📟</h4></div></div>
+    <div class="comp"><img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?crop=entropy&cs=tinysrgb&fit=max&w=120" alt="Battery"><div class="comp-body"><h4>Battery 🔋</h4></div></div>
+  </div>
+</section>
+<!-- SOIL TYPES -->
+<section id="soiltypes" class="wrap" aria-label="Soil types">
+  <h2 class="section-title" data-anim>🌾 Soil Types</h2>
+  <div class="soil-grid" data-anim>
+    <div class="soil"><h4>Clay Soil 🏺</h4><p>Holds water, slow drainage</p></div>
+    <div class="soil"><h4>Sandy Soil 🏖️</h4><p>Fast drainage, low nutrients</p></div>
+    <div class="soil"><h4>Loamy Soil 🌿</h4><p>Balanced moisture & fertility</p></div>
+    <div class="soil"><h4>Peaty Soil 🍂</h4><p>Acidic and rich in organic matter</p></div>
+  </div>
+</section>
+<!-- HOW TO USE -->
+<section id="use" class="wrap" aria-label="How to use">
+  <h2 class="section-title" data-anim>📋 How to use Soil Tongue</h2>
+  <div class="steps" data-anim>
+    <div class="step">1️⃣ Insert sensors into soil</div>
+    <div class="step">2️⃣ Connect Arduino and power</div>
+    <div class="step">3️⃣ Read measurements on LCD</div>
+    <div class="step">4️⃣ Check recommended crops</div>
+  </div>
+</section>
+<!-- EXAMPLES -->
+<section id="examples" class="wrap" aria-label="Examples">
+  <h2 class="section-title" data-anim>🌱 Examples</h2>
+  <div class="examples" data-anim>
+    <div class="example"><h4>Lettuce 🥬</h4><p>Loamy soil, pH 6-7</p></div>
+    <div class="example"><h4>Tomato 🍅</h4><p>Loamy soil, pH 6-6.8</p></div>
+    <div class="example"><h4>Carrot 🥕</h4><p>Sandy loam, pH 6-6.5</p></div>
+  </div>
+</section>
+<!-- CONTACT -->
+<section id="contact" class="wrap" aria-label="Contact">
+  <h2 class="section-title" data-anim>📧 Contact</h2>
+  <div class="contact-grid" data-anim>
+    <div class="contact-card">
+      <form>
+        <label>Name</label>
+        <input type="text"
