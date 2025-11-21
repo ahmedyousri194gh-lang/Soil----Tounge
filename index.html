@@ -3,115 +3,193 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Soil Tongue — Smart Soil Device</title>
+<title>Soil Tongue — Simple tools, better crops</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --bg1: #061914;
-    --bg2: #0b422f;
-    --accent: #7ef3c7;
-    --accent2: #45c9a0;
-    --card-bg: rgba(255,255,255,0.04);
-    --border-glass: rgba(255,255,255,0.07);
-    --text: #e9fff6;
-    --muted: #bfeed8;
-    --radius: 16px;
-    --maxw: 1200px;
+  :root{
+    --bgA: #071913;      /* deep green */
+    --bgB: #0b3d2e;      /* mid */
+    --accent: #6ee7b7;   /* fresh green */
+    --accent2:#3fc09a;
+    --earth:#c67a3b;     /* terracotta */
+    --card: rgba(255,255,255,0.04);
+    --glass-border: rgba(255,255,255,0.06);
+    --text:#e9fff6;
+    --muted:#bfead8;
+    --radius:18px;
+    --maxw:1200px;
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: 'Inter', sans-serif; background: linear-gradient(180deg, var(--bg1), var(--bg2)); color: var(--text); }
-  .wrap { width: min(var(--maxw), 95%); margin: 0 auto; padding: 0 12px; }
 
-  .nav { position: sticky; top: 10px; background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid var(--border-glass); border-radius: 999px; padding: 10px; backdrop-filter: blur(6px); display: flex; justify-content: center; gap: 16px; z-index: 10; transition: all .3s; }
-  .nav.scrolled { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.5); }
-  .nav .brand { font-weight: 900; color: var(--accent); }
-  .nav .links a { color: var(--muted); text-decoration: none; padding: 8px 12px; border-radius: 999px; transition: all .2s; }
-  .nav .links a:hover { transform: translateY(-3px); color: var(--text); background: rgba(255,255,255,0.02); }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:var(--text);background:linear-gradient(180deg,var(--bgA),var(--bgB));-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
 
-  header.hero { text-align: center; padding: 60px 0 40px; }
-  header.hero h1 { font-size: clamp(48px, 8vw, 90px); font-weight: 900; background: linear-gradient(90deg, #b6f4b6, #46e0c1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-  header.hero p { color: var(--muted); font-size: clamp(16px, 2vw, 20px); margin-top: 16px; }
+  /* container */
+  .wrap{width:min(var(--maxw),95%);margin:0 auto;padding-left:12px;padding-right:12px;}
 
-  section { padding: 50px 0; }
-  .section-title { text-align: center; font-size: clamp(24px, 4vw, 36px); font-weight: 800; color: var(--accent); margin-bottom: 20px; }
+  /* NAV */
+  .nav{
+    position:sticky;top:12px;z-index:120;
+    display:flex;align-items:center;justify-content:center;padding:10px;
+    backdrop-filter: blur(6px); border-radius:999px;
+    border:1px solid var(--glass-border); background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    margin:12px auto; width:min(var(--maxw),96%);
+    transition: all .28s ease;
+  }
+  .nav.scrolled{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.6) }
+  .nav .brand{ font-weight:900;color:var(--accent); margin-right:16px; font-size:1.05rem }
+  .nav .links{ display:flex; gap:12px; }
+  .nav .links a{ padding:8px 12px; border-radius:999px; color:var(--muted); font-weight:600; transition:all .18s }
+  .nav .links a:hover{ transform:translateY(-3px); color:var(--text); background:rgba(255,255,255,0.01) }
 
-  .card { background: var(--card-bg); border: 1px solid var(--border-glass); border-radius: var(--radius); padding: 20px; backdrop-filter: blur(6px); margin-bottom: 24px; }
+  /* HERO */
+  header.hero{ text-align:center;padding:56px 0 24px; }
+  .hero .title{ font-weight:900; font-size:clamp(40px,7.5vw,76px); line-height:0.9;
+    background:linear-gradient(90deg,#baf5c0,#3fe9c0); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    text-shadow:0 12px 40px rgba(5,30,22,0.25); margin:0;
+    transition:transform 1.6s ease; }
+  .hero .subtitle{ color:var(--muted); max-width:920px; margin:14px auto 0; font-size:clamp(15px,2vw,18px) }
 
-  .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-  @media (max-width: 900px) { .features-grid { grid-template-columns: 1fr; } }
-  .feature { text-align: center; padding: 24px; border-radius: 12px; background: var(--card-bg); transition: transform .25s; }
-  .feature:hover { transform: translateY(-8px); }
-  .feature .icon { font-size: 36px; margin-bottom: 12px; }
-  .feature h4 { margin: 8px 0; font-weight: 800; }
-  .feature p { color: var(--muted); }
+  .hero .hero-grid{ display:grid; grid-template-columns: 1fr 420px; gap:22px; align-items:center; margin-top:26px; width:min(var(--maxw),95%); margin-left:auto; margin-right:auto; }
+  @media (max-width:980px){ .hero .hero-grid{ grid-template-columns:1fr; } }
 
-  .cards-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-  @media (max-width: 1000px) { .cards-grid { grid-template-columns: repeat(2,1fr); } }
-  @media (max-width: 640px) { .cards-grid { grid-template-columns: 1fr; } }
-  .comp { display: flex; gap: 12px; align-items: flex-start; background: var(--card-bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border-glass); transition: transform .3s, box-shadow .3s; }
-  .comp:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
-  .comp img { width: 100px; height: 70px; object-fit: cover; border-radius: 8px; flex-shrink: 0; transition: transform .6s; transform: scale(1.05); }
-  .comp.in img { transform: scale(1); }
-  .comp-body h5 { margin: 0; font-weight: 800; color: var(--accent2); }
-  .comp-body p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:16px; padding:18px; border:1px solid var(--glass-border); backdrop-filter: blur(6px);
+    box-shadow:0 14px 30px rgba(0,0,0,0.45);
+  }
 
-  .soil-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
-  @media (max-width: 900px) { .soil-grid { grid-template-columns: repeat(2,1fr); } }
-  @media (max-width: 640px) { .soil-grid { grid-template-columns: 1fr; } }
-  .soil { background: var(--card-bg); padding: 18px; border-radius: 12px; border: 1px solid var(--border-glass); color: var(--muted); }
+  .hero-image{ width:100%; height:320px; object-fit:cover; border-radius:12px; display:block; }
 
-  .steps { display: flex; flex-direction: column; gap: 10px; }
-  .step { background: var(--card-bg); padding: 14px; border-radius: 12px; border: 1px solid var(--border-glass); }
+  .tagline{ font-size:18px; font-weight:700; color:var(--accent2) }
 
-  .examples { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-  @media (max-width: 1000px) { .examples { grid-template-columns: repeat(2,1fr); } }
-  @media (max-width: 640px) { .examples { grid-template-columns: 1fr; } }
-  .example { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-glass); color: var(--muted); }
+  .cta-row{ margin-top:16px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .btn{ padding:10px 16px; border-radius:999px; border:0; cursor:pointer; font-weight:700; background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#05261a; box-shadow:0 12px 30px rgba(21,125,81,0.12); transition:transform .18s }
+  .btn.alt{ background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03) }
+  .btn:hover{ transform:translateY(-6px) }
 
-  .contact-grid { display: grid; grid-template-columns: 1fr 300px; gap: 18px; }
-  @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
-  .contact-card { background: var(--card-bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border-glass); }
+  /* sections */
+  section{ padding:44px 0; }
+  .section-title{ text-align:center; font-size:clamp(20px,3.5vw,36px); color:var(--accent); margin-bottom:12px; font-weight:800 }
 
-  input, textarea, select { width: 100%; padding: 10px; border: 1px solid var(--border-glass); border-radius: 8px; background: transparent; color: var(--text); }
-  label { color: var(--muted); font-size: 14px; }
+  /* features */
+  .features-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px; }
+  @media (max-width:920px){ .features-grid{ grid-template-columns:1fr } }
 
-  footer { text-align: center; margin: 40px 0; color: var(--muted); }
+  .feature{ padding:22px; border-radius:12px; text-align:center; transition:transform .28s }
+  .feature:hover{ transform:translateY(-8px) }
+  .feature .icon{ font-size:34px; margin-bottom:6px }
+  .feature h4{ margin:6px 0; font-weight:800 }
+  .feature p{ color:var(--muted) }
 
-  /* Animations scroll reveal */
-  [data-anim] { opacity: 0; transform: translateY(24px) scale(.98); transition: all 700ms cubic-bezier(.2,.9,.2,1); }
-  [data-anim].in { opacity: 1; transform: translateY(0) scale(1); }
+  /* components (cards C) */
+  .cards-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px; }
+  @media (max-width:1000px){ .cards-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:640px){ .cards-grid{ grid-template-columns:1fr; } }
+
+  .comp{ display:flex; gap:12px; align-items:flex-start; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.04); transition:transform .3s, box-shadow .3s }
+  .comp:hover{ transform:translateY(-8px); box-shadow:0 18px 40px rgba(0,0,0,0.45) }
+  .comp img{ width:120px; height:84px; object-fit:cover; border-radius:10px; flex-shrink:0; transform:scale(1.08); opacity:.95; transition:transform .8s; }
+  .comp.in img{ transform:scale(1); opacity:1; }
+  .comp-body h5{ margin:0; color:var(--accent2); font-weight:800 }
+  .comp-body p{ margin:6px 0; color:var(--muted) }
+
+  /* soil types list */
+  .soil-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:18px; }
+  @media (max-width:1100px){ .soil-grid{ grid-template-columns:repeat(2,1fr) } }
+  @media (max-width:640px){ .soil-grid{ grid-template-columns:1fr } }
+  .soil{ background:var(--card); border-radius:12px; padding:14px; border:1px solid var(--glass-border); color:var(--muted) }
+
+  /* how to use list */
+  .steps{ display:flex; flex-direction:column; gap:10px; margin-top:12px }
+  .step{ background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.02)); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03) }
+
+  /* examples table / cards */
+  .examples{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px; }
+  @media (max-width:1000px){ .examples{ grid-template-columns:repeat(2,1fr) } }
+  @media (max-width:640px){ .examples{ grid-template-columns:1fr } }
+  .example{ background:var(--card); border-radius:12px; padding:12px; border:1px solid rgba(255,255,255,0.04); color:var(--muted) }
+
+  /* contact */
+  .contact-grid{ display:grid; grid-template-columns:1fr 320px; gap:18px; }
+  @media (max-width:920px){ .contact-grid{ grid-template-columns:1fr } }
+  .contact-card{ padding:14px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.04) }
+  input, textarea, select{ width:100%; padding:10px; margin-top:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--text) }
+  label{ font-weight:700; color:var(--muted); font-size:14px }
+
+  footer{ text-align:center; color:var(--muted); margin:40px 0 80px }
+
+  /* scroll animation states */
+  [data-anim]{ opacity:0; transform: translateY(18px) scale(.995); transition: all 700ms cubic-bezier(.2,.9,.2,1); will-change:transform,opacity }
+  [data-anim].in{ opacity:1; transform:translateY(0) scale(1) }
+
+  /* small helpers */
+  .muted{ color:var(--muted) }
+  .center{ text-align:center }
 
 </style>
 </head>
 <body>
+
+  <!-- NAV -->
   <div class="nav" id="nav">
-    <div class="wrap">
+    <div class="wrap" style="display:flex;align-items:center;justify-content:center;gap:18px">
       <div class="brand">Soil Tongue</div>
-      <nav class="links">
+      <nav class="links" role="navigation" aria-label="Main nav">
         <a href="#home">Home</a>
         <a href="#problem">Problem</a>
         <a href="#solution">Solution</a>
         <a href="#materials">Material</a>
-        <a href="#soiltypes">Soil Types</a>
-        <a href="#use">How to Use</a>
+        <a href="#soiltypes">Soil types</a>
+        <a href="#use">How to use it</a>
         <a href="#examples">Examples</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
   </div>
 
-  <header id="home" class="hero wrap">
-    <h1 data-anim>Soil Tongue</h1>
-    <p data-anim class="subtitle">Simple tools, better crops — farming the smart way</p>
+  <!-- HERO -->
+  <header id="home" class="hero wrap" aria-label="Home">
+    <div style="max-width:1200px;margin:0 auto;">
+      <h1 class="title" data-anim>Soil Tongue</h1>
+      <p class="subtitle muted" data-anim>Simple tools, better crops — farming the smart way</p>
+
+      <div class="hero-grid" data-anim>
+        <div>
+          <p style="margin-top:6px;color:var(--muted)">A compact device to measure soil pH, moisture, salinity and temperature — shows the ideal crop and helps farmers make informed decisions.</p>
+
+          <div style="margin-top:18px;">
+            <div class="tagline">Home • Problem • Solution • Material • Soil types • How to use it • Examples • Contact</div>
+
+            <div class="cta-row" style="margin-top:16px;">
+              <button class="btn" onclick="document.querySelector('#problem').scrollIntoView({behavior:'smooth'})">Learn more</button>
+              <button class="btn alt" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Contact</button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card" style="display:flex;flex-direction:column;gap:10px">
+          <!-- hero image (uses uploaded image path if available) -->
+          <img id="heroImg" class="hero-image" alt="Soil Tongue device in soil"
+               src="/mnt/data/ISEF.jpeg" onerror="this.style.display='none'">
+          <div class="muted" style="font-size:14px">Soil Tongue — prototype in testing</div>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <section id="problem" class="wrap">
+  <!-- PROBLEM -->
+  <section id="problem" class="wrap" aria-label="Problem">
     <h2 class="section-title" data-anim>Problem</h2>
     <div class="card" data-anim>
-      <p>Many farmers face challenges because they do not know the soil conditions well. Without accurate information about the soil, it is difficult to decide which crop to plant or how to take care of it. This problem can lead to low crop production, poor plant health, and sometimes complete crop failure. Soil has different properties such as pH, moisture, salinity, and temperature, all of which are very important for plant growth. If these factors are not suitable, plants cannot absorb nutrients properly, grow slowly, or may even die. For example, planting a crop in soil with the wrong pH can prevent the plant from taking essential minerals. Similarly, unsuitable temperature or too little water can harm the plant. Many farmers do not have tools to measure these conditions easily, so they often rely on experience or guesswork. This is why a simple device that measures soil properties and suggests the right crop is very useful.</p>
+      <p class="muted">Many farmers face challenges because they do not know the soil conditions well. Without accurate information about the soil, it is difficult to decide which crop to plant or how to take care of it. This problem can lead to low crop production, poor plant health, and sometimes complete crop failure. Soil has different properties such as pH, moisture, salinity, and temperature, all of which are very important for plant growth. If these factors are not suitable, plants cannot absorb nutrients properly, grow slowly, or may even die. For example, planting a crop in soil with the wrong pH can prevent the plant from taking essential minerals. Similarly, unsuitable temperature or too little water can harm the plant. Many farmers do not have tools to measure these conditions easily, so they often rely on experience or guesswork. This is why a simple device that measures soil properties and suggests the right crop is very useful.</p>
+
       <div style="margin-top:12px;">
         <h4 style="color:var(--accent2)">Causes of poor plant growth:</h4>
-        <ol style="color:var(--muted)">
+        <ol class="muted">
           <li>Wrong pH level for the crop</li>
           <li>Planting in soil with unsuitable pH</li>
           <li>Temperature not suitable for growth</li>
@@ -120,209 +198,278 @@
     </div>
   </section>
 
-  <section id="solution" class="wrap">
+  <!-- SOLUTION -->
+  <section id="solution" class="wrap" aria-label="Solution">
     <h2 class="section-title" data-anim>Solution</h2>
     <div class="card" data-anim>
-      <p>The problem of not knowing the soil is very common for farmers. The solution is a simple smart device that can check the soil. This device measures important things like pH, moisture, salt, and temperature. By knowing these values, farmers can choose the right crop for their soil. This stops problems like bad growth or plants dying.</p>
-      <p style="margin-top:10px">The device shows the results on a small screen. It is easy to read and understand. After measuring, the device can also tell which crop is best for the soil. This saves time, reduces losses, and helps farmers grow more food. Farmers do not need to guess or depend only on experience.</p>
-      <p style="margin-top:10px">Using this device also helps the environment and farming. Planting the right crop for the soil uses water and fertilizer better. This protects the soil and makes farming safe and healthy.</p>
+      <p class="muted">The problem of not knowing the soil is very common for farmers. The solution is a simple smart device that can check the soil. This device measures important things like pH, moisture, salt, and temperature. By knowing these values, farmers can choose the right crop for their soil. This stops problems like bad growth or plants dying.</p>
+
+      <p class="muted" style="margin-top:10px">The device shows the results on a small screen. It is easy to read and understand. After measuring, the device can also tell which crop is best for the soil. This saves time, reduces losses, and helps farmers grow more food. Farmers do not need to guess or depend only on experience.</p>
+
+      <p class="muted" style="margin-top:10px">Using this device also helps the environment and farming. Planting the right crop for the soil uses water and fertilizer better. This protects the soil and makes farming safe and healthy.</p>
     </div>
   </section>
 
-  <section id="materials" class="wrap">
+  <!-- MATERIAL -->
+  <section id="materials" class="wrap" aria-label="Material">
     <h2 class="section-title" data-anim>Material</h2>
-    <div class="cards-grid">
-      <div class="comp" data-anim>
-        <img src="https://cdn.pixabay.com/photo/2017/03/19/13/23/arduino-2154238_1280.png" alt="Arduino board" />
-        <div class="comp-body">
-          <h5>Arduino Board</h5>
-          <p>The microcontroller board powering the device.</p>
+    <div class="card" data-anim>
+      <div class="grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <ul class="muted">
+            <li>Arduino board</li>
+            <li>pH sensor</li>
+            <li>Soil moisture sensor</li>
+            <li>Soil temperature sensor (DS18B20)</li>
+            <li>Salinity (TDS) sensor</li>
+            <li>LCD screen (16x2 with I2C)</li>
+            <li>Breadboard</li>
+            <li>Wooden board for mounting sensors</li>
+            <li>Battery / Power bank</li>
+            <li>Jumper wires</li>
+          </ul>
         </div>
-      </div>
-      <div class="comp" data-anim>
-        <img src="https://cdn.pixabay.com/photo/2018/04/24/03/18/ph-3347540_1280.png" alt="pH sensor" />
-        <div class="comp-body">
-          <h5>pH Sensor</h5>
-          <p>Measures the acidity or alkalinity of the soil.</p>
-        </div>
-      </div>
-      <div class="comp" data-anim>
-        <img src="https://cdn.pixabay.com/photo/2020/04/05/15/01/moisture-5008525_1280.png" alt="Soil moisture sensor" />
-        <div class="comp-body">
-          <h5>Soil Moisture Sensor</h5>
-          <p>Detects water content in the soil.</p>
-        </div>
-      </div>
-      <div class="comp" data-anim>
-        <img src="https://cdn.pixabay.com/photo/2016/12/10/16/19/thermometer-1899198_1280.png" alt="Temperature sensor" />
-        <div class="comp-body">
-          <h5>Temperature Sensor</h5>
-          <p>Monitors soil temperature (e.g., DS18B20).</p>
-        </div>
-      </div>
-      <div class="comp" data-anim>
-        <img src="https://cdn.pixabay.com/photo/2018/06/10/17/25/salinity-plant-3465984_1280.png" alt="Salinity sensor" />
-        <div class="comp-body">
-          <h5>Salinity / TDS Sensor</h5>
-          <p>Measures salt / conductivity in soil.</p>
-        </div>
-      </div>
-      <div class="comp" data-anim>
-        <img src="https://cdn.pixabay.com/photo/2017/05/17/04/19/lcd-2314141_1280.png" alt="LCD screen" />
-        <div class="comp-body">
-          <h5>LCD Screen (16×2)</h5>
-          <p>Displays data to the farmer.</p>
-        </div>
-      </div>
-      <div class="comp" data-anim>
-        <img src="https://cdn.pixabay.com/photo/2013/07/12/16/35/breadboard-150520_1280.png" alt="Breadboard" />
-        <div class="comp-body">
-          <h5>Breadboard</h5>
-          <p>Used for prototyping and connections.</p>
-        </div>
-      </div>
-      <div class="comp" data-anim>
-        <img src="https://cdn.pixabay.com/photo/2016/11/23/15/38/power-bank-1851560_1280.png" alt="Battery / Power bank" />
-        <div class="comp-body">
-          <h5>Battery / Power Bank</h5>
-          <p>Powers the device in the field.</p>
-        </div>
-      </div>
-      <div class="comp" data-anim>
-        <img src="https://cdn.pixabay.com/photo/2017/11/15/12/07/electronics-2959938_1280.png" alt="Jumper wires" />
-        <div class="comp-body">
-          <h5>Jumper Wires</h5>
-          <p>Connect all sensors and modules.</p>
+        <div>
+          <p class="muted">These components are low-cost and widely available. The system is designed to be simple to assemble and maintain — great for both smallholder and experimental use.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="soiltypes" class="wrap">
+  <!-- SOIL TYPES -->
+  <section id="soiltypes" class="wrap" aria-label="Soil types">
     <h2 class="section-title" data-anim>Soil Types</h2>
     <div class="soil-grid" data-anim>
-      <div class="soil"><h4>Sandy Soil</h4><p>Drains water very fast, warms quickly, low nutrients, good for plants that need dry soil.</p></div>
-      <div class="soil"><h4>Clay Soil</h4><p>Holds water for a long time, heavy and dense, rich in nutrients, but drains slowly.</p></div>
-      <div class="soil"><h4>Loamy Soil</h4><p>Best soil for most crops, balanced mix of sand, silt, and clay, holds water well and drains well.</p></div>
-      <div class="soil"><h4>Silty Soil</h4><p>Smooth and soft texture, holds water better than sandy soil, more nutrients, can compact easily.</p></div>
+      <div class="soil">
+        <h4 style="margin:0 0 6px">Sandy Soil</h4>
+        <p>Drains water very fast, warms quickly, low nutrients, good for plants that need dry soil.</p>
+      </div>
+      <div class="soil">
+        <h4 style="margin:0 0 6px">Clay Soil</h4>
+        <p>Holds water for a long time, heavy and dense, rich in nutrients, but drains slowly.</p>
+      </div>
+      <div class="soil">
+        <h4 style="margin:0 0 6px">Loamy Soil</h4>
+        <p>Best soil for most crops, balanced mix of sand, silt, and clay, holds water well and drains well.</p>
+      </div>
+      <div class="soil">
+        <h4 style="margin:0 0 6px">Silty Soil</h4>
+        <p>Smooth and soft texture, holds water better than sandy soil, more nutrients, can compact easily.</p>
+      </div>
     </div>
   </section>
 
-  <section id="use" class="wrap">
-    <h2 class="section-title" data-anim>How to Use It</h2>
+  <!-- HOW TO USE -->
+  <section id="use" class="wrap" aria-label="How to use it">
+    <h2 class="section-title" data-anim>How to Use the Project</h2>
     <div class="card" data-anim>
       <div class="steps">
-        <div class="step">1. Place the sensors in the soil carefully.</div>
-        <div class="step">2. Turn on the device using the battery or power bank.</div>
-        <div class="step">3. Wait a few seconds for the sensors to read the soil values.</div>
-        <div class="step">4. Check the LCD screen to see the pH, moisture, temperature, and salinity.</div>
-        <div class="step">5. Look at the recommended crop that appears on the screen.</div>
-        <div class="step">6. Use the information to choose the best plant for your soil.</div>
+        <div class="step"><strong>1.</strong> Place the sensors in the soil carefully.</div>
+        <div class="step"><strong>2.</strong> Turn on the device using the battery or power bank.</div>
+        <div class="step"><strong>3.</strong> Wait a few seconds for the sensors to read the soil values.</div>
+        <div class="step"><strong>4.</strong> Check the LCD screen to see the pH, moisture, temperature, and salinity.</div>
+        <div class="step"><strong>5.</strong> Look at the recommended crop that appears on the screen.</div>
+        <div class="step"><strong>6.</strong> Use the information to choose the best plant for your soil.</div>
       </div>
-      <div style="margin-top:20px;">
-        <h4 style="color: var(--accent2)">How to improve soil</h4>
-        <ul style="color: var(--muted)">
+
+      <div style="margin-top:12px;">
+        <h4 style="color:var(--accent2)">How to improve soil</h4>
+        <ul class="muted">
           <li>Add lime to reduce acidity.</li>
-          <li>Add sulfur to lessen alkalinity.</li>
-          <li>Add compost or manure to enrich the soil.</li>
-          <li>Apply wood chips on top to retain moisture.</li>
-          <li>Improve drainage and loosen the soil for root growth.</li>
+          <li>Add sulfur to reduce alkalinity.</li>
+          <li>Add animal manure or compost to increase nutrients.</li>
+          <li>Use wood chips to retain moisture.</li>
+          <li>Improve drainage and loosen the soil to help roots breathe.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <section id="examples" class="wrap">
+  <!-- EXAMPLES -->
+  <section id="examples" class="wrap" aria-label="Examples">
     <h2 class="section-title" data-anim>Examples</h2>
+
     <div class="examples" data-anim>
-      <div class="example card"><h4>Tomato (طماطم)</h4><p class="muted">pH: 6.0–7.0 | Temp: 20–27°C | Loamy | Moisture: Medium | Salinity: Low</p><p class="muted">Plant: Spring | Water: 600–1000 mm/year</p></div>
-      <div class="example card"><h4>Potato (بطاطس)</h4><p class="muted">pH: 5.0–6.0 | Temp: 15–20°C | Soil: Sandy/Loamy | Moisture: Medium–High</p><p class="muted">Plant: Early Spring | Water: 500–700 mm/year</p></div>
-      <div class="example card"><h4>Wheat (قمح)</h4><p class="muted">pH: 6.0–7.5 | Temp: 20–30°C | Soil: Loamy | Moisture: Low–Medium</p><p class="muted">Plant: Autumn/Spring | Water: 400–600 mm/year</p></div>
-      <div class="example card"><h4>Peas (بازلاء)</h4><p class="muted">pH: 6.0–7.5 | Temp: 18–25°C | Soil: Loamy | Moisture: Medium</p></div>
-      <div class="example card"><h4>Lettuce (خس)</h4><p class="muted">pH: 6.0–7.0 | Temp: 15–20°C | Soil: Loamy | Moisture: High</p></div>
-      <div class="example card"><h4>Corn (ذرة)</h4><p class="muted">pH: 5.8–7.0 | Temp: 18–27°C | Soil: Loamy/Sandy-loam | Moisture: Medium</p></div>
-      <div class="example card"><h4>Cucumber (خيار)</h4><p class="muted">pH: 6.0–7.0 | Temp: 20–30°C | Soil: Loamy | Moisture: High</p></div>
-      <div class="example card"><h4>Carrot (جزر)</h4><p class="muted">pH: 6.0–7.0 | Temp: 16–21°C | Soil: Sandy | Moisture: Medium</p></div>
-      <div class="example card"><h4>Spinach (سبانخ)</h4><p class="muted">pH: 6.5–7.5 | Temp: 10–20°C | Soil: Loamy | Moisture: Medium</p></div>
+      <!-- Example card repeated -->
+      <div class="example card">
+        <h4 style="margin:0 0 6px">Tomato (طماطم)</h4>
+        <p class="muted">pH: 6.0–7.0 • Temp: 20–27°C • Soil: Loamy • Moisture: Medium • Salinity: Low</p>
+        <p class="muted" style="margin-top:8px">Planting time: Spring • Water: 600–1000 mm/year</p>
+      </div>
+
+      <div class="example card">
+        <h4 style="margin:0 0 6px">Potato (بطاطس)</h4>
+        <p class="muted">pH: 5.0–6.0 • Temp: 15–20°C • Soil: Sandy/Loamy • Moisture: Medium–High</p>
+        <p class="muted" style="margin-top:8px">Plant early spring • Water: 500–700 mm/year</p>
+      </div>
+
+      <div class="example card">
+        <h4 style="margin:0 0 6px">Wheat (قمح)</h4>
+        <p class="muted">pH: 6.0–7.5 • Temp: 20–30°C • Soil: Loamy • Moisture: Low–Medium</p>
+        <p class="muted" style="margin-top:8px">Plant autumn/spring • Water: 400–600 mm/year</p>
+      </div>
+
+      <div class="example card">
+        <h4 style="margin:0 0 6px">Peas (بازلاء)</h4>
+        <p class="muted">pH: 6.0–7.5 • Temp: 18–25°C • Soil: Loamy • Moisture: Medium</p>
+      </div>
+
+      <div class="example card">
+        <h4 style="margin:0 0 6px">Lettuce (خس)</h4>
+        <p class="muted">pH: 6.0–7.0 • Temp: 15–20°C • Soil: Loamy • Moisture: High</p>
+      </div>
+
+      <div class="example card">
+        <h4 style="margin:0 0 6px">Corn (ذرة)</h4>
+        <p class="muted">pH: 5.8–7.0 • Temp: 18–27°C • Soil: Loamy/Sandy-loam • Moisture: Medium</p>
+      </div>
+
+      <div class="example card">
+        <h4 style="margin:0 0 6px">Cucumber (خيار)</h4>
+        <p class="muted">pH: 6.0–7.0 • Temp: 20–30°C • Soil: Loamy • Moisture: High</p>
+      </div>
+
+      <div class="example card">
+        <h4 style="margin:0 0 6px">Carrot (جزر)</h4>
+        <p class="muted">pH: 6.0–7.0 • Temp: 16–21°C • Soil: Sandy • Moisture: Medium</p>
+      </div>
+
+      <div class="example card">
+        <h4 style="margin:0 0 6px">Spinach (سبانخ)</h4>
+        <p class="muted">pH: 6.5–7.5 • Temp: 10–20°C • Soil: Loamy • Moisture: Medium</p>
+      </div>
     </div>
   </section>
 
-  <section id="contact" class="wrap">
+  <!-- CONTACT -->
+  <section id="contact" class="wrap" aria-label="Contact">
     <h2 class="section-title" data-anim>Contact</h2>
+
     <div class="contact-grid" data-anim>
-      <div class="contact-card">
-        <form onsubmit="sendEmail(event)">
-          <label for="n">Your name</label>
-          <input id="n" required placeholder="Name" />
-          <label for="e">Your email</label>
-          <input id="e" type="email" required placeholder="you@example.com" />
-          <label for="to">Send to</label>
-          <select id="to">
-            <option value="dodonasser2009@gmail.com">Eyad Nasser</option>
-            <option value="ahmed.yousri@example.com">Ahmed Yousri</option>
-          </select>
-          <label for="m">Message</label>
-          <textarea id="m" rows="4" placeholder="Write your question..." required></textarea>
-          <div style="margin-top:12px;">
-            <button class="btn" type="submit">Send</button>
-            <button class="btn alt" type="button" onclick="this.form.reset()">Reset</button>
-          </div>
-        </form>
+      <div>
+        <div class="contact-card">
+          <form id="contactForm" onsubmit="sendQuestion(event)">
+            <label for="name">Your name</label>
+            <input id="name" required placeholder="Your name">
+
+            <label for="email">Your email</label>
+            <input id="email" type="email" required placeholder="you@example.com">
+
+            <label for="to">Send question to</label>
+            <select id="to">
+              <option value="dodonasser2009@gmail.com">Eyad Nasser — dodonasser2009@gmail.com</option>
+              <option value="ahmed.yousri@example.com">Ahmed Yousri — +20 10 20831635</option>
+            </select>
+
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" placeholder="Write your question..." required></textarea>
+
+            <div style="margin-top:10px; display:flex; gap:8px;">
+              <button class="btn" type="submit">Send question</button>
+              <button class="btn alt" type="button" onclick="document.getElementById('contactForm').reset()">Reset</button>
+            </div>
+            <p id="sentNotice" style="margin-top:8px;color:var(--muted);display:none;">Opening your email client...</p>
+          </form>
+        </div>
       </div>
-      <div class="contact-card">
-        <p class="muted"><strong>Contacts:</strong></p>
-        <p class="muted">Eyad Nasser — 01003609906 — dodonasser2009@gmail.com</p>
-        <p class="muted">Ahmed Yousri — +20 10 20831635</p>
+
+      <div>
+        <div class="contact-card">
+          <h4 style="margin:0 0 8px">Contacts</h4>
+          <p class="muted" style="margin:0 0 6px">
+            Eyad Nasser<br>Phone: 01003609906<br>Email: dodonasser2009@gmail.com
+          </p>
+          <p class="muted" style="margin:10px 0 6px">
+            Ahmed Yousri<br>Phone: +20 10 20831635<br>Email: ahmed.yousri@example.com
+          </p>
+          <p class="muted">Choose a contact above to send a question from the form.</p>
+        </div>
+
+        <div style="margin-top:12px" class="card">
+          <h4 style="margin:0 0 6px">Quick tips</h4>
+          <ul class="muted" style="margin:0 0 0 10px;padding-left:10px">
+            <li>Place sensors properly (not too shallow / not touching plastic).</li>
+            <li>Calibrate pH and EC sensors before first use.</li>
+            <li>Charge power bank for continuous readings.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
   <footer class="wrap">
-    © 2025 Soil Tongue — All rights reserved.
+    © 2025 Soil Tongue — Developed by Ahmed Yousri. All rights reserved.
   </footer>
 
-  <script>
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        const t = document.querySelector(a.getAttribute('href'));
-        if (t) t.scrollIntoView({behavior: 'smooth', block: 'start'});
-      });
-    });
-
-    // Navbar scroll effect
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) nav.classList.add('scrolled');
-      else nav.classList.remove('scrolled');
-    });
-
-    // Scroll reveal
-    const obs = new IntersectionObserver((es, o) => {
-      es.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          o.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.2 });
-
-    document.querySelectorAll('[data-anim]').forEach(el => obs.observe(el));
-    document.querySelectorAll('.comp').forEach(el => obs.observe(el));
-    document.querySelectorAll('.comp img').forEach(img => obs.observe(img));
-
-    // Contact form
-    function sendEmail(e) {
+<script>
+  // Smooth links
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
       e.preventDefault();
-      const name = document.getElementById('n').value;
-      const email = document.getElementById('e').value;
-      const to = document.getElementById('to').value;
-      const msg = document.getElementById('m').value;
-      const subject = encodeURIComponent(`Question from ${name}`);
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`);
-      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  // Navbar scrolled state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', ()=> {
+    if (window.scrollY > 24) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+  });
+
+  // IntersectionObserver for reveal animations & images zoom
+  const obs = new IntersectionObserver((entries, o) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        // if comp card, also animate contained image
+        if (e.target.classList.contains('comp')) {
+          const img = e.target.querySelector('img');
+          if (img) img.style.transform = 'scale(1)';
+        }
+        o.unobserve(e.target);
+      }
+    });
+  }, {threshold: 0.16});
+
+  document.querySelectorAll('[data-anim]').forEach(el => obs.observe(el));
+  // also observe component cards & images
+  document.querySelectorAll('.comp').forEach(el => obs.observe(el));
+  document.querySelectorAll('.comp img').forEach(img => obs.observe(img));
+
+  // Contact form: open mailto with chosen recipient
+  function sendQuestion(e){
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const to = document.getElementById('to').value;
+    const message = document.getElementById('message').value.trim();
+    if (!name || !email || !message) return alert('Please fill all fields');
+    const subject = encodeURIComponent(`Question from ${name} via Soil Tongue site`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    const mailto = `mailto:${to}?subject=${subject}&body=${body}`;
+    document.getElementById('sentNotice').style.display = 'block';
+    // open mail client
+    window.location.href = mailto;
+  }
+
+  // small accessibility: keyboard focus for comps
+  document.querySelectorAll('.comp').forEach(c=>{
+    c.setAttribute('tabindex','0');
+    c.addEventListener('keypress', e=>{
+      if (e.key === 'Enter') { c.click(); }
+    });
+  });
+
+  // Optional: lazy load hero image fallback
+  window.addEventListener('load', ()=> {
+    const hero = document.getElementById('heroImg');
+    if (hero && hero.naturalWidth===0) {
+      // image failed to load - hide gracefully
+      hero.style.display='none';
     }
-  </script>
+  });
+</script>
+
 </body>
 </html>
